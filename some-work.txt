@@ -1,4 +1,0 @@
-Hello word!
-This is a final project for 705 data science class
-here i have a new idea.
-this is an applegit 
