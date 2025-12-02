@@ -1,0 +1,15 @@
+---
+title: "Adolescent Fertility – Project Overview"
+---
+
+## Overview
+
+This website summarizes our MA705 Project 1 on global adolescent fertility (births per 1,000 women ages 15–19) using World Bank data from 1960 to 2023.
+
+- **Data source:** World Bank World Development Indicators, indicator `SP.ADO.TFRT`.
+- **Main question:** How have adolescent fertility rates changed over time across the world, and how do patterns differ by region and income group?
+- **Key contributions:**
+  - Cleaned and tidied adolescent fertility data into a panel dataset.
+  - Enriched the data with World Bank region and income group.
+  - Created visualizations to compare distributions, trends over time, and geographic patterns.
+  - Fit simple regression models to quantify time trends and differences across groups.

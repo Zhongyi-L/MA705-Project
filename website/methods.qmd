@@ -1,0 +1,24 @@
+---
+title: "Data & Methods"
+---
+
+## Data
+
+We use adolescent fertility data from the World Bank World Development Indicators (indicator code `SP.ADO.TFRT`). The raw files include:
+
+- `API_SP.ADO.TFRT_DS2_en_csv_v2_14702.csv` (main time series for adolescent fertility).
+- `Metadata_Country_API_SP.ADO.TFRT_DS2_en_csv_v2_14702.csv` (country metadata such as region and income group).
+
+## Retrieval and Cleaning
+
+We manually downloaded the CSV files from the World Bank Open Data website and saved them in the `Project 1/Adolescent fertility rate` folder of our MA705 project. In our Python notebook, we then:
+
+- Loaded the raw CSVs into pandas DataFrames.
+- Skipped the descriptive header lines and dropped empty columns.
+- Converted the data from wide format (one column per year) to long tidy format (one row per country–year).
+- Merged the fertility data with country metadata using the `Country Code` variable.
+- Renamed columns, converted data types, and removed rows with missing adolescent fertility.
+
+## Enrichment and Quality Checks
+
+We enriched the dataset with region and income group, and used `groupby` and aggregation to compute averages by year, region, and income group. We also added simple data-quality checks (for example, assert statements to verify there are no missing values in key variables and that the number of rows and value ranges are reasonable).

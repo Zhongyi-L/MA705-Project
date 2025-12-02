@@ -1,0 +1,79 @@
+[
+  {
+    "objectID": "analysis.html",
+    "href": "analysis.html",
+    "title": "Analysis & Results",
+    "section": "",
+    "text": "We computed summary statistics of adolescent fertility and created a histogram and boxplots by income group to understand the overall distribution and how it varies across income levels."
+  },
+  {
+    "objectID": "analysis.html#descriptive-analysis",
+    "href": "analysis.html#descriptive-analysis",
+    "title": "Analysis & Results",
+    "section": "",
+    "text": "We computed summary statistics of adolescent fertility and created a histogram and boxplots by income group to understand the overall distribution and how it varies across income levels."
+  },
+  {
+    "objectID": "analysis.html#time-trends",
+    "href": "analysis.html#time-trends",
+    "title": "Analysis & Results",
+    "section": "Time Trends",
+    "text": "Time Trends\nWe plotted the mean adolescent fertility over time by income group and four selected countries (Brazil, Ethiopia, India, and Japan). These plots show that adolescent fertility has declined globally but remains much higher in low-income and some lower-middle-income countries."
+  },
+  {
+    "objectID": "analysis.html#maps",
+    "href": "analysis.html#maps",
+    "title": "Analysis & Results",
+    "section": "Maps",
+    "text": "Maps\nWe created two world maps (1960 and 2023) that color countries by their adolescent fertility rates. Comparing these maps illustrates substantial global progress and persistent geographic disparities."
+  },
+  {
+    "objectID": "analysis.html#regression",
+    "href": "analysis.html#regression",
+    "title": "Analysis & Results",
+    "section": "Regression",
+    "text": "Regression\nWe fit simple regression models with adolescent fertility as the response and year and income group as predictors to quantify the overall downward time trend and the differences across income groups."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Adolescent Fertility – Project Overview",
+    "section": "",
+    "text": "This website summarizes our MA705 Project 1 on global adolescent fertility (births per 1,000 women ages 15–19) using World Bank data from 1960 to 2023.\n\nData source: World Bank World Development Indicators, indicator SP.ADO.TFRT.\nMain question: How have adolescent fertility rates changed over time across the world, and how do patterns differ by region and income group?\nKey contributions:\n\nCleaned and tidied adolescent fertility data into a panel dataset.\nEnriched the data with World Bank region and income group.\nCreated visualizations to compare distributions, trends over time, and geographic patterns.\nFit simple regression models to quantify time trends and differences across groups."
+  },
+  {
+    "objectID": "index.html#overview",
+    "href": "index.html#overview",
+    "title": "Adolescent Fertility – Project Overview",
+    "section": "",
+    "text": "This website summarizes our MA705 Project 1 on global adolescent fertility (births per 1,000 women ages 15–19) using World Bank data from 1960 to 2023.\n\nData source: World Bank World Development Indicators, indicator SP.ADO.TFRT.\nMain question: How have adolescent fertility rates changed over time across the world, and how do patterns differ by region and income group?\nKey contributions:\n\nCleaned and tidied adolescent fertility data into a panel dataset.\nEnriched the data with World Bank region and income group.\nCreated visualizations to compare distributions, trends over time, and geographic patterns.\nFit simple regression models to quantify time trends and differences across groups."
+  },
+  {
+    "objectID": "methods.html",
+    "href": "methods.html",
+    "title": "Data & Methods",
+    "section": "",
+    "text": "We use adolescent fertility data from the World Bank World Development Indicators (indicator code SP.ADO.TFRT). The raw files include:\n\nAPI_SP.ADO.TFRT_DS2_en_csv_v2_14702.csv (main time series for adolescent fertility).\nMetadata_Country_API_SP.ADO.TFRT_DS2_en_csv_v2_14702.csv (country metadata such as region and income group)."
+  },
+  {
+    "objectID": "methods.html#data",
+    "href": "methods.html#data",
+    "title": "Data & Methods",
+    "section": "",
+    "text": "We use adolescent fertility data from the World Bank World Development Indicators (indicator code SP.ADO.TFRT). The raw files include:\n\nAPI_SP.ADO.TFRT_DS2_en_csv_v2_14702.csv (main time series for adolescent fertility).\nMetadata_Country_API_SP.ADO.TFRT_DS2_en_csv_v2_14702.csv (country metadata such as region and income group)."
+  },
+  {
+    "objectID": "methods.html#retrieval-and-cleaning",
+    "href": "methods.html#retrieval-and-cleaning",
+    "title": "Data & Methods",
+    "section": "Retrieval and Cleaning",
+    "text": "Retrieval and Cleaning\nWe manually downloaded the CSV files from the World Bank Open Data website and saved them in the Project 1/Adolescent fertility rate folder of our MA705 project. In our Python notebook, we then:\n\nLoaded the raw CSVs into pandas DataFrames.\nSkipped the descriptive header lines and dropped empty columns.\nConverted the data from wide format (one column per year) to long tidy format (one row per country–year).\nMerged the fertility data with country metadata using the Country Code variable.\nRenamed columns, converted data types, and removed rows with missing adolescent fertility."
+  },
+  {
+    "objectID": "methods.html#enrichment-and-quality-checks",
+    "href": "methods.html#enrichment-and-quality-checks",
+    "title": "Data & Methods",
+    "section": "Enrichment and Quality Checks",
+    "text": "Enrichment and Quality Checks\nWe enriched the dataset with region and income group, and used groupby and aggregation to compute averages by year, region, and income group. We also added simple data-quality checks (for example, assert statements to verify there are no missing values in key variables and that the number of rows and value ranges are reasonable)."
+  }
+]

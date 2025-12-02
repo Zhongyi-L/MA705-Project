@@ -1,0 +1,19 @@
+---
+title: "Analysis & Results"
+---
+
+## Descriptive Analysis
+
+We computed summary statistics of adolescent fertility and created a histogram and boxplots by income group to understand the overall distribution and how it varies across income levels.
+
+## Time Trends
+
+We plotted the mean adolescent fertility over time by income group and four selected countries (Brazil, Ethiopia, India, and Japan). These plots show that adolescent fertility has declined globally but remains much higher in low-income and some lower-middle-income countries.
+
+## Maps
+
+We created two world maps (1960 and 2023) that color countries by their adolescent fertility rates. Comparing these maps illustrates substantial global progress and persistent geographic disparities.
+
+## Regression
+
+We fit simple regression models with adolescent fertility as the response and year and income group as predictors to quantify the overall downward time trend and the differences across income groups.
