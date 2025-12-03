@@ -4,12 +4,39 @@ title: "Adolescent Fertility – Project Overview"
 
 ## Overview
 
-This website summarizes our MA705 Project 1 on global adolescent fertility (births per 1,000 women ages 15–19) using World Bank data from 1960 to 2023.
+This website summarizes our MA705 Project 1 on global adolescent fertility, measured as births per 1,000 women ages 15–19. We use data from the World Bank World Development Indicators for the period 1960–2023 and focus on how adolescent fertility has evolved across countries, regions, and income groups.
 
-- **Data source:** World Bank World Development Indicators, indicator `SP.ADO.TFRT`.
-- **Main question:** How have adolescent fertility rates changed over time across the world, and how do patterns differ by region and income group?
-- **Key contributions:**
-  - Cleaned and tidied adolescent fertility data into a panel dataset.
-  - Enriched the data with World Bank region and income group.
-  - Created visualizations to compare distributions, trends over time, and geographic patterns.
-  - Fit simple regression models to quantify time trends and differences across groups.
+Our main goal is to describe **global patterns and inequalities** in adolescent fertility, and to show how these patterns have changed over time. We combine data from the adolescent fertility indicator with country-level metadata (such as region and income group) to build a panel dataset that we can analyze and visualize.
+
+## Motivation
+
+Adolescent fertility is closely related to education, health, and development. High adolescent fertility can be associated with:
+
+- Interrupted schooling and lower educational attainment,
+- Higher health risks for young mothers and their children,
+- Long-term economic disadvantages for individuals and communities.
+
+Because of these consequences, understanding **where** adolescent fertility is high, **how fast** it is changing, and **how unequal** it is across income groups and regions is an important descriptive question. Our project does not try to establish causal relationships, but instead focuses on clean data processing and clear visual descriptions of global patterns.
+
+## Main questions
+
+In this project, we focus on the following descriptive questions:
+
+1. How is adolescent fertility distributed across all country–year observations?
+2. How do levels of adolescent fertility differ across World Bank **income groups**?
+3. How has adolescent fertility changed over time, both globally and within income groups and regions?
+4. How do trajectories for a few representative countries illustrate differences in levels and speed of decline?
+5. How do **geographic patterns** of adolescent fertility look at the start of the period (1960) compared to a recent year (2023)?
+
+## What we did
+
+To answer these questions, we:
+
+- Selected the World Bank adolescent fertility indicator (`SP.ADO.TFRT`) and downloaded the main data file and country metadata.
+- Loaded the raw CSV files into pandas, cleaned them, and reshaped them into tidy long format (one row per country–year).
+- Merged the fertility data with country metadata to obtain region and income group information.
+- Performed basic data cleaning and quality checks to ensure that the dataset is consistent and usable.
+- Created several visualizations (distribution plots, time-series plots, and world maps) to explore patterns and inequalities.
+- Fit simple regression models to summarize time trends and differences across income groups.
+
+The rest of this website describes our data and methods in more detail and shows the main results of our analysis.

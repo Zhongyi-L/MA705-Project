@@ -2,23 +2,113 @@
 title: "Data & Methods"
 ---
 
-## Data
+## Data source and institution
 
-We use adolescent fertility data from the World Bank World Development Indicators (indicator code `SP.ADO.TFRT`). The raw files include:
+We use data from the **World Bank World Development Indicators (WDI)**. Our main variable is the adolescent fertility rate, defined as the number of births per 1,000 women ages 15–19. The corresponding WDI indicator code is `SP.ADO.TFRT`.
 
-- `API_SP.ADO.TFRT_DS2_en_csv_v2_14702.csv` (main time series for adolescent fertility).
-- `Metadata_Country_API_SP.ADO.TFRT_DS2_en_csv_v2_14702.csv` (country metadata such as region and income group).
+The World Bank is an international financial institution that collects and publishes a large number of economic and social indicators for countries around the world. The WDI database is widely used as a standard source for cross-country data, and the metadata documents how each indicator is constructed and updated.
 
-## Retrieval and Cleaning
+## Raw files and format
 
-We manually downloaded the CSV files from the World Bank Open Data website and saved them in the `Project 1/Adolescent fertility rate` folder of our MA705 project. In our Python notebook, we then:
+We downloaded two main CSV files from the World Bank Open Data website:
 
-- Loaded the raw CSVs into pandas DataFrames.
-- Skipped the descriptive header lines and dropped empty columns.
-- Converted the data from wide format (one column per year) to long tidy format (one row per country–year).
-- Merged the fertility data with country metadata using the `Country Code` variable.
-- Renamed columns, converted data types, and removed rows with missing adolescent fertility.
+- `API_SP.ADO.TFRT_DS2_en_csv_v2_14702.csv`  
+  This file contains the adolescent fertility indicator for many countries and years. The data are in **wide format**, with one row per country and one column per year (for example, `1960`, `1961`, …, `2023`).
 
-## Enrichment and Quality Checks
+- `Metadata_Country_API_SP.ADO.TFRT_DS2_en_csv_v2_14702.csv`  
+  This file contains **country metadata**, such as World Bank region and income group, using the same three-letter `Country Code` as the main file.
 
-We enriched the dataset with region and income group, and used `groupby` and aggregation to compute averages by year, region, and income group. We also added simple data-quality checks (for example, assert statements to verify there are no missing values in key variables and that the number of rows and value ranges are reasonable).
+The main data CSV starts with descriptive header lines, followed by columns such as `Country Name`, `Country Code`, `Indicator Name`, `Indicator Code`, and one column for each year. The metadata CSV has columns like `Country Code`, `Region`, and `IncomeGroup`.
+
+## Data retrieval process
+
+We followed these steps to retrieve the data:
+
+1. Went to the World Bank Open Data website and searched for the adolescent fertility indicator (`SP.ADO.TFRT`).
+2. Used the download options to obtain the **CSV version** of the data and the corresponding **country metadata** file.
+3. Saved the files into our project folder under  
+   `Project 1/Adolescent fertility rate/`.
+
+Data retrieval was **manual** (downloaded through the browser) rather than via an API, because the project guidelines do not require a fully automated pipeline as long as the steps are documented clearly.
+
+## From raw data to tidy pandas DataFrame
+
+We used Python and pandas in our `project.ipynb` notebook to transform the raw CSV files into a tidy dataset. The main steps were:
+
+1. **Read the raw CSV files**
+
+   - Skipped the initial non-tabular header lines in the main file using `skiprows` when calling `pd.read_csv`.
+   - Read the metadata file in standard CSV format.
+
+2. **Drop unnecessary columns**
+
+   - Kept only the relevant variables: `Country Name`, `Country Code`, and the year columns.
+   - Removed completely empty columns if any were present.
+
+3. **Convert from wide to long format**
+
+   - Used `pd.melt` to convert the wide data (one column per year) into **long format**, creating a dataset with one row per country–year.
+   - Created a `Year` column (converted to integer) and an `adolescent_fertility` column that stores the indicator values.
+
+4. **Merge with country metadata**
+
+   - Merged the long fertility dataset with the metadata dataset on `Country Code`.
+   - This step added variables such as `Region` and `IncomeGroup` to each country–year observation.
+
+5. **Rename columns and standardize types**
+
+   - Renamed columns to simpler names such as `country_name`, `country_code`, `region`, `income_group`, `Year`, and `adolescent_fertility`.
+   - Ensured that `Year` is an integer and `adolescent_fertility` is numeric, using `pd.to_numeric` and dropping or marking invalid values.
+
+The result is a tidy pandas DataFrame with one row per country–year, containing adolescent fertility, region, and income group.
+
+## Data enrichment
+
+After merging with the metadata, we used the enriched variables in our analysis:
+
+- `region` (World Bank region, e.g. “Sub-Saharan Africa”, “Europe & Central Asia”),
+- `income_group` (e.g. “Low income”, “Lower middle income”, “Upper middle income”, “High income”).
+
+This allowed us to:
+
+- Compute **grouped summaries** such as mean adolescent fertility by year and income group.
+- Produce **time-series plots** by income group and by region.
+- Select **representative countries** from different income groups for detailed comparison.
+
+We mainly used `groupby`, `agg`, and `merge` to create these enriched tables.
+
+## Data cleaning and missing values
+
+We applied several basic data cleaning steps:
+
+- **Handling missing values:**
+  - Dropped rows where `adolescent_fertility` is missing, since these observations cannot be used in the analysis.
+  - Verified that dropping these rows did not remove entire countries or years unexpectedly.
+
+- **Removing clearly invalid values:**
+  - Checked the range of `adolescent_fertility` to ensure there are no negative values or unrealistic outliers.
+  - Confirmed that most values are in a plausible range (roughly 0–200 births per 1,000 women 15–19).
+
+- **Column name standardization:**
+  - Renamed variables to lowercase with underscores to make them easier to work with in pandas.
+
+## Data quality checks
+
+To make sure our data processing steps were correct, we added some simple sanity checks:
+
+- Verified that the number of rows after reshaping and merging matches what we expect (e.g., number of countries × number of years minus missing observations).
+- Checked that the key variables (`country_code`, `Year`, `adolescent_fertility`) do not contain unexpected missing values after cleaning.
+- Used basic descriptive statistics (min, max, mean) and a few quick plots to confirm that the distributions are reasonable.
+
+These checks give us some confidence that our tidy dataset is consistent and suitable for visualization and basic statistical analysis.
+
+## Analysis methods
+
+Our analysis is mainly **descriptive** and uses:
+
+- Summary statistics (mean, median, standard deviation) by income group and region,
+- Visualizations of distributions, time trends, and maps,
+- Simple regression models, such as:
+  - Regressing adolescent fertility on `Year` and income group indicators to summarize the downward time trend and group differences.
+
+The emphasis is on clear, reproducible transformations and visualizations rather than complex machine learning models.
