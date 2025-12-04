@@ -9,7 +9,15 @@ In this section, we present the main statistical analysis and visualizations bas
 
 ### Basic statistical / modeling analysis
 
-First, we compute some basic descriptive statistics and show them in tables.
+First, we compute some basic descriptive statistics for adolescent fertility rates across all country-year observations in the cleaned dataset. The distribution is strongly right-skewed: most countries have relatively low adolescent fertility, while a smaller group of countries shows much higher rates. 
+
+At a high level:
+
+- High income and European/OECD countries tend to cluster at the low end of the distribution, with very few births per 1,000 girls aged 15-19. 
+- Lower-income regions, especially Sub-Saharan Africa, have much higher adolescent fertility rates and much more variation across countries. 
+- Over time, most regions show a downward trend, but the decline is uneven: some countries have large drops, while others remain flat. 
+
+These summary statistics help motivate the regression analysis: we want to understand how adolescent fertility relates to development indicators such as income level, region, and time, and whether the global decline in adolescent fertility is uniform across different group of countries. 
 
 ```{python}
 import pandas as pd
