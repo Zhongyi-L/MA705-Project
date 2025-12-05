@@ -20,7 +20,9 @@ Because of these consequences, understanding **where** adolescent fertility is h
 
 ## Main questions
 
-In this project, we focus on the following descriptive questions:
+How have global adolescent fertility rates (births per 1,000 women ages 15–19) changed from 1960 to 2023, and how unequal are these rates across countries, and income groups?
+
+In this project, we split the main problem into five smaller questions:
 
 1. How is adolescent fertility distributed across all country–year observations?
 2. How do levels of adolescent fertility differ across World Bank **income groups**?
