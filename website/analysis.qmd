@@ -54,7 +54,7 @@ From this histogram, we see that most adolescent fertility values are concentrat
 
 Next, we compare the distribution of adolescent fertility across World Bank income groups using boxplots.
 
-![Boxplots of adolescent fertility by income group](figs/boxplot_income_group.png)
+![Boxplots of adolescent fertility by income group](figs/box_plot.png)
 
 The boxplots show a clear pattern:
 
