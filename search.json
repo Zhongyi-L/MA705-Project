@@ -1,0 +1,156 @@
+[
+  {
+    "objectID": "methods.html",
+    "href": "methods.html",
+    "title": "Data & Methods",
+    "section": "",
+    "text": "We use data from the World Bank World Development Indicators (WDI). Our main variable is the adolescent fertility rate, defined as the number of births per 1,000 women ages 15–19. The corresponding WDI indicator code is SP.ADO.TFRT.\nThe World Bank is an international financial institution that collects and publishes a large number of economic and social indicators for countries around the world. The WDI database is widely used as a standard source for cross-country data, and the metadata documents how each indicator is constructed and updated."
+  },
+  {
+    "objectID": "methods.html#data-source-and-institution",
+    "href": "methods.html#data-source-and-institution",
+    "title": "Data & Methods",
+    "section": "",
+    "text": "We use data from the World Bank World Development Indicators (WDI). Our main variable is the adolescent fertility rate, defined as the number of births per 1,000 women ages 15–19. The corresponding WDI indicator code is SP.ADO.TFRT.\nThe World Bank is an international financial institution that collects and publishes a large number of economic and social indicators for countries around the world. The WDI database is widely used as a standard source for cross-country data, and the metadata documents how each indicator is constructed and updated."
+  },
+  {
+    "objectID": "methods.html#raw-files-and-format",
+    "href": "methods.html#raw-files-and-format",
+    "title": "Data & Methods",
+    "section": "Raw files and format",
+    "text": "Raw files and format\nWe downloaded two main CSV files from the World Bank Open Data website:\n\nAPI_SP.ADO.TFRT_DS2_en_csv_v2_14702.csv\nThis file contains the adolescent fertility indicator for many countries and years. The data are in wide format, with one row per country and one column per year (for example, 1960, 1961, …, 2023).\nMetadata_Country_API_SP.ADO.TFRT_DS2_en_csv_v2_14702.csv\nThis file contains country metadata, such as World Bank region and income group, using the same three-letter Country Code as the main file.\n\nThe main data CSV starts with descriptive header lines, followed by columns such as Country Name, Country Code, Indicator Name, Indicator Code, and one column for each year. The metadata CSV has columns like Country Code, Region, and IncomeGroup."
+  },
+  {
+    "objectID": "methods.html#data-retrieval-process",
+    "href": "methods.html#data-retrieval-process",
+    "title": "Data & Methods",
+    "section": "Data retrieval process",
+    "text": "Data retrieval process\nWe followed these steps to retrieve the data:\n\nWent to the World Bank Open Data website and searched for the adolescent fertility indicator (SP.ADO.TFRT).\nUsed the download options to obtain the CSV version of the data and the corresponding country metadata file.\nSaved the files into our project folder under\nProject 1/Adolescent fertility rate/.\n\nData retrieval was manual (downloaded through the browser) rather than via an API, because the project guidelines do not require a fully automated pipeline as long as the steps are documented clearly."
+  },
+  {
+    "objectID": "methods.html#from-raw-data-to-tidy-pandas-dataframe",
+    "href": "methods.html#from-raw-data-to-tidy-pandas-dataframe",
+    "title": "Data & Methods",
+    "section": "From raw data to tidy pandas DataFrame",
+    "text": "From raw data to tidy pandas DataFrame\nWe used Python and pandas in our project.ipynb notebook to transform the raw CSV files into a tidy dataset. The main steps were:\n\nRead the raw CSV files\n\nSkipped the initial non-tabular header lines in the main file using skiprows when calling pd.read_csv.\nRead the metadata file in standard CSV format.\n\nDrop unnecessary columns\n\nKept only the relevant variables: Country Name, Country Code, and the year columns.\nRemoved completely empty columns if any were present.\n\nConvert from wide to long format\n\nUsed pd.melt to convert the wide data (one column per year) into long format, creating a dataset with one row per country–year.\nCreated a Year column (converted to integer) and an adolescent_fertility column that stores the indicator values.\n\nMerge with country metadata\n\nMerged the long fertility dataset with the metadata dataset on Country Code.\nThis step added variables such as Region and IncomeGroup to each country–year observation.\n\nRename columns and standardize types\n\nRenamed columns to simpler names such as country_name, country_code, region, income_group, Year, and adolescent_fertility.\nEnsured that Year is an integer and adolescent_fertility is numeric, using pd.to_numeric and dropping or marking invalid values.\n\n\nThe result is a tidy pandas DataFrame with one row per country–year, containing adolescent fertility, region, and income group."
+  },
+  {
+    "objectID": "methods.html#data-enrichment",
+    "href": "methods.html#data-enrichment",
+    "title": "Data & Methods",
+    "section": "Data enrichment",
+    "text": "Data enrichment\nAfter merging with the metadata, we used the enriched variables in our analysis:\n\nregion (World Bank region, e.g. “Sub-Saharan Africa”, “Europe & Central Asia”),\nincome_group (e.g. “Low income”, “Lower middle income”, “Upper middle income”, “High income”).\n\nThis allowed us to:\n\nCompute grouped summaries such as mean adolescent fertility by year and income group.\nProduce time-series plots by income group and by region.\nSelect representative countries from different income groups for detailed comparison.\n\nWe mainly used groupby, agg, and merge to create these enriched tables."
+  },
+  {
+    "objectID": "methods.html#data-cleaning-and-missing-values",
+    "href": "methods.html#data-cleaning-and-missing-values",
+    "title": "Data & Methods",
+    "section": "Data cleaning and missing values",
+    "text": "Data cleaning and missing values\nWe applied several basic data cleaning steps:\n\nHandling missing values:\n\nDropped rows where adolescent_fertility is missing, since these observations cannot be used in the analysis.\nVerified that dropping these rows did not remove entire countries or years unexpectedly.\n\nRemoving clearly invalid values:\n\nChecked the range of adolescent_fertility to ensure there are no negative values or unrealistic outliers.\nConfirmed that most values are in a plausible range (roughly 0–200 births per 1,000 women 15–19).\n\nColumn name standardization:\n\nRenamed variables to lowercase with underscores to make them easier to work with in pandas."
+  },
+  {
+    "objectID": "methods.html#data-quality-checks",
+    "href": "methods.html#data-quality-checks",
+    "title": "Data & Methods",
+    "section": "Data quality checks",
+    "text": "Data quality checks\nTo make sure our data processing steps were correct, we added some simple sanity checks:\n\nVerified that the number of rows after reshaping and merging matches what we expect (e.g., number of countries × number of years minus missing observations).\nChecked that the key variables (country_code, Year, adolescent_fertility) do not contain unexpected missing values after cleaning.\nUsed basic descriptive statistics (min, max, mean) and a few quick plots to confirm that the distributions are reasonable.\n\nThese checks give us some confidence that our tidy dataset is consistent and suitable for visualization and basic statistical analysis."
+  },
+  {
+    "objectID": "methods.html#analysis-methods",
+    "href": "methods.html#analysis-methods",
+    "title": "Data & Methods",
+    "section": "Analysis methods",
+    "text": "Analysis methods\nOur analysis is mainly descriptive and uses:\n\nSummary statistics (mean, median, standard deviation) by income group and region,\nVisualizations of distributions, time trends, and maps,\nSimple regression models, such as:\n\nRegressing adolescent fertility on Year and income group indicators to summarize the downward time trend and group differences.\n\n\nThe emphasis is on clear, reproducible transformations and visualizations rather than complex machine learning models."
+  },
+  {
+    "objectID": "analysis.html",
+    "href": "analysis.html",
+    "title": "Analysis & Results",
+    "section": "",
+    "text": "In this section, we present the main statistical analysis and visualizations based on our adolescent fertility dataset. Our goal is to describe global patterns, differences across income groups and regions, and how adolescent fertility has changed over time.\n\n\nBefore building visualizations or regression models, we first compute some descriptive statistics for adolescent fertility rates across all country-year observations in the cleaned dataset. These summary statistics provide a baseline understanding of the global distribution and help motivate the patterns we explore later in the analysis.\nAt a high level, adolescent fertility is strongly right-skewed: most countries record relatively low birth rates among girls aged 15–19, while a smaller set of primarily low-income countries show much higher fertility levels.\nKey patterns from the basic statistics:\n\nIncome and development level:\nHigh-income and OECD/European regions consistently appear at the lowest end of the fertility distribution. In contrast, low-income regions—especially Sub-Saharan Africa—display both higher average fertility rates and much larger within-region variation.\nRegional differences:\nSub-Saharan Africa has the highest mean adolescent fertility rate and the largest standard deviation, reflecting substantial diversity across countries. Regions such as Europe & Central Asia and North America cluster tightly at the low end of the distribution.\nTrends over time:\nMost regions show a long-run decline in adolescent fertility, but the magnitude of this decline varies: some countries experience sharp downward shifts, while others remain relatively unchanged.\n\nThese descriptive statistics set the stage for the visual and modeling sections that follow. By establishing how adolescent fertility varies by income level, region, and time, we can better interpret the heat maps, histograms, interactive visualizations, and regression analyses presented later in the report.\n\nimport pandas as pd\n\n# Read the cleaned data saved from the notebook\ndf = pd.read_csv(\"df_clean.csv\")\n\n# If your fertility column has a different name,\n# change \"adolescent_fertility\" here.\ncol = \"adolescent_fertility\"\n\n# Summary by income group\nsummary_income = (\ndf.groupby(\"income_group\")[col]\n.agg(n_obs=\"count\", mean=\"mean\", median=\"median\", std=\"std\")\n.reset_index()\n.sort_values(\"income_group\")\n)\n\nsummary_income\nThe table above reports, for each income group, the number of observations (number_of_obs), the mean, median, and standard deviation of adolescent fertility (births per 1,000 women ages 15–19). This makes the differences between low-, lower-middle-, upper-middle-, and high-income countries visible in numerical form. ## 1. Distribution of adolescent fertility\nThe first figure is a histogram of the adolescent fertility rate (births per 1,000 women ages 15–19) using all available country–year observations in the cleaned dataset.\n\n\n\nHistogram of adolescent fertility\n\n\nFrom this histogram, we see that most adolescent fertility values are concentrated at relatively lower levels, for example between 0 and 100 births per 1,000 women 15–19. However, there is a long right tail with some country–years that have much higher fertility. This suggests large differences across countries and time periods, and motivates looking at how these differences are structured by income group and region."
+  },
+  {
+    "objectID": "analysis.html#overview-of-the-analysis",
+    "href": "analysis.html#overview-of-the-analysis",
+    "title": "Analysis & Results",
+    "section": "",
+    "text": "In this section, we present the main statistical analysis and visualizations based on our adolescent fertility dataset. Our goal is to describe global patterns, differences across income groups and regions, and how adolescent fertility has changed over time.\n\n\nBefore building visualizations or regression models, we first compute some descriptive statistics for adolescent fertility rates across all country-year observations in the cleaned dataset. These summary statistics provide a baseline understanding of the global distribution and help motivate the patterns we explore later in the analysis.\nAt a high level, adolescent fertility is strongly right-skewed: most countries record relatively low birth rates among girls aged 15–19, while a smaller set of primarily low-income countries show much higher fertility levels.\nKey patterns from the basic statistics:\n\nIncome and development level:\nHigh-income and OECD/European regions consistently appear at the lowest end of the fertility distribution. In contrast, low-income regions—especially Sub-Saharan Africa—display both higher average fertility rates and much larger within-region variation.\nRegional differences:\nSub-Saharan Africa has the highest mean adolescent fertility rate and the largest standard deviation, reflecting substantial diversity across countries. Regions such as Europe & Central Asia and North America cluster tightly at the low end of the distribution.\nTrends over time:\nMost regions show a long-run decline in adolescent fertility, but the magnitude of this decline varies: some countries experience sharp downward shifts, while others remain relatively unchanged.\n\nThese descriptive statistics set the stage for the visual and modeling sections that follow. By establishing how adolescent fertility varies by income level, region, and time, we can better interpret the heat maps, histograms, interactive visualizations, and regression analyses presented later in the report.\n\nimport pandas as pd\n\n# Read the cleaned data saved from the notebook\ndf = pd.read_csv(\"df_clean.csv\")\n\n# If your fertility column has a different name,\n# change \"adolescent_fertility\" here.\ncol = \"adolescent_fertility\"\n\n# Summary by income group\nsummary_income = (\ndf.groupby(\"income_group\")[col]\n.agg(n_obs=\"count\", mean=\"mean\", median=\"median\", std=\"std\")\n.reset_index()\n.sort_values(\"income_group\")\n)\n\nsummary_income\nThe table above reports, for each income group, the number of observations (number_of_obs), the mean, median, and standard deviation of adolescent fertility (births per 1,000 women ages 15–19). This makes the differences between low-, lower-middle-, upper-middle-, and high-income countries visible in numerical form. ## 1. Distribution of adolescent fertility\nThe first figure is a histogram of the adolescent fertility rate (births per 1,000 women ages 15–19) using all available country–year observations in the cleaned dataset.\n\n\n\nHistogram of adolescent fertility\n\n\nFrom this histogram, we see that most adolescent fertility values are concentrated at relatively lower levels, for example between 0 and 100 births per 1,000 women 15–19. However, there is a long right tail with some country–years that have much higher fertility. This suggests large differences across countries and time periods, and motivates looking at how these differences are structured by income group and region."
+  },
+  {
+    "objectID": "analysis.html#differences-by-income-group",
+    "href": "analysis.html#differences-by-income-group",
+    "title": "Analysis & Results",
+    "section": "2. Differences by income group",
+    "text": "2. Differences by income group\nNext, we compare the distribution of adolescent fertility across World Bank income groups using boxplots.\n\n\n\nBoxplots of adolescent fertility by income group\n\n\nThe boxplots show a clear pattern:\n\nLow-income and lower-middle-income countries have higher median adolescent fertility and more variability.\nUpper-middle-income countries have intermediate levels.\nHigh-income countries have the lowest median adolescent fertility and relatively few extreme values.\n\nThis confirms that adolescent fertility is strongly related to income level, at least in descriptive terms. The spread of values is also much larger in lower-income groups, indicating more heterogeneity among those countries."
+  },
+  {
+    "objectID": "analysis.html#time-trends-by-income-group",
+    "href": "analysis.html#time-trends-by-income-group",
+    "title": "Analysis & Results",
+    "section": "3. Time trends by income group",
+    "text": "3. Time trends by income group\nWe then look at how adolescent fertility has changed over time in each income group. For this, we compute the mean adolescent fertility within each income group and year and plot one line per group from 1960 to 2023.\n\n\n\nMean adolescent fertility by income group over time\n\n\nAll income groups show a downward trend in adolescent fertility over time, which indicates global progress. However, the levels and slopes differ noticeably:\n\nLow-income countries start at very high fertility levels and decline gradually but remain much higher than other groups.\nLower-middle-income countries begin at high levels but show a strong decline over the decades.\nUpper-middle-income countries follow a similar downward pattern at intermediate levels.\nHigh-income countries start at much lower levels and decline to very low fertility in recent years.\n\nThe lines do not fully converge, which suggests that while everyone is moving downward, the gaps between income groups remain large."
+  },
+  {
+    "objectID": "analysis.html#time-trends-for-selected-countries",
+    "href": "analysis.html#time-trends-for-selected-countries",
+    "title": "Analysis & Results",
+    "section": "4. Time trends for selected countries",
+    "text": "4. Time trends for selected countries\nTo illustrate country-specific trajectories, we select four representative countries:\n\nEthiopia – low income, high fertility,\n\nIndia – lower-middle income with strong decline,\n\nBrazil – upper-middle income,\n\nJapan – high income with very low fertility.\n\n\n\n\nAdolescent fertility for selected countries\n\n\nThis plot shows very different starting levels and speeds of decline:\n\nEthiopia starts at extremely high adolescent fertility and remains high for many years, although there is a gradual decline in more recent decades.\nIndia also starts at high levels but shows a strong and sustained decline, especially after around the 1990s.\nBrazil begins at medium levels and steadily declines over time.\nJapan has very low adolescent fertility throughout the entire period, with small fluctuations around a low baseline.\n\nTogether, these four trajectories illustrate how income, region, and country-specific factors can lead to very different patterns, even though the overall global trend is downward."
+  },
+  {
+    "objectID": "analysis.html#interactive-world-map-in-1960",
+    "href": "analysis.html#interactive-world-map-in-1960",
+    "title": "Analysis & Results",
+    "section": "5. Interactive world map in 1960",
+    "text": "5. Interactive world map in 1960\nWe use a choropleth world map to visualize the geographic distribution of adolescent fertility in 1960, the first year in our dataset. Each country is colored according to its adolescent fertility rate in that year.\nThe map below is interactive: we can hover over a country to see its name and exact value, and use the toolbar to zoom and pan.\n\n\nIn 1960, high adolescent fertility is widespread across many low-income regions, especially in parts of Sub-Saharan Africa and some other developing areas. While some high-income regions already display lower fertility levels, the overall picture is one of generally high adolescent fertility across much of the world."
+  },
+  {
+    "objectID": "analysis.html#interactive-world-map-in-2023",
+    "href": "analysis.html#interactive-world-map-in-2023",
+    "title": "Analysis & Results",
+    "section": "6. Interactive world map in 2023",
+    "text": "6. Interactive world map in 2023\nWe create a second interactive map for 2023, one of the most recent years in the dataset, using the same color scale and projection so that it can be directly compared to the 1960 map.\n\n\nThe 2023 map shows substantial global progress: adolescent fertility has decreased in many regions, particularly in upper-middle- and high-income countries. However, some countries and regions, especially in parts of Sub-Saharan Africa, still have high adolescent fertility rates. Comparing the 1960 and 2023 maps side by side makes it clear that global progress has been uneven and that large geographic disparities remain."
+  },
+  {
+    "objectID": "analysis.html#brief-regression-summary",
+    "href": "analysis.html#brief-regression-summary",
+    "title": "Analysis & Results",
+    "section": "7. Brief regression summary",
+    "text": "7. Brief regression summary\nFinally, we fit simple regression models (not shown in detail here) with adolescent fertility as the response and predictors such as Year and income group indicators. These models confirm two main patterns that we see in the plots:\n\nA significant negative relationship between Year and adolescent fertility, summarizing the global downward trend over time.\nSignificant differences between income groups, with low-income countries having higher expected adolescent fertility than high-income countries, even after controlling for the time trend.\n\nOverall, the descriptive statistics, visualizations, and simple regression results tell a consistent story: adolescent fertility has fallen substantially worldwide since 1960, but it remains much higher in many low-income and some lower-middle-income countries, leading to persistent inequalities across income groups and regions."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Adolescent Fertility – Project Overview",
+    "section": "",
+    "text": "This website summarizes our MA705 Project 1 on global adolescent fertility, measured as births per 1,000 women ages 15–19. We use data from the World Bank World Development Indicators for the period 1960–2023 and focus on how adolescent fertility has evolved across countries, regions, and income groups.\nOur main goal is to describe global patterns and inequalities in adolescent fertility, and to show how these patterns have changed over time. We combine data from the adolescent fertility indicator with country-level metadata (such as region and income group) to build a panel dataset that we can analyze and visualize."
+  },
+  {
+    "objectID": "index.html#overview",
+    "href": "index.html#overview",
+    "title": "Adolescent Fertility – Project Overview",
+    "section": "",
+    "text": "This website summarizes our MA705 Project 1 on global adolescent fertility, measured as births per 1,000 women ages 15–19. We use data from the World Bank World Development Indicators for the period 1960–2023 and focus on how adolescent fertility has evolved across countries, regions, and income groups.\nOur main goal is to describe global patterns and inequalities in adolescent fertility, and to show how these patterns have changed over time. We combine data from the adolescent fertility indicator with country-level metadata (such as region and income group) to build a panel dataset that we can analyze and visualize."
+  },
+  {
+    "objectID": "index.html#motivation",
+    "href": "index.html#motivation",
+    "title": "Adolescent Fertility – Project Overview",
+    "section": "Motivation",
+    "text": "Motivation\nAdolescent fertility is closely related to education, health, and development. High adolescent fertility can be associated with:\n\nInterrupted schooling and lower educational attainment,\nHigher health risks for young mothers and their children,\nLong-term economic disadvantages for individuals and communities.\n\nBecause of these consequences, understanding where adolescent fertility is high, how fast it is changing, and how unequal it is across income groups and regions is an important descriptive question. Our project does not try to establish causal relationships, but instead focuses on clean data processing and clear visual descriptions of global patterns."
+  },
+  {
+    "objectID": "index.html#main-questions",
+    "href": "index.html#main-questions",
+    "title": "Adolescent Fertility – Project Overview",
+    "section": "Main questions",
+    "text": "Main questions\nHow have global adolescent fertility rates (births per 1,000 women ages 15–19) changed from 1960 to 2023, and how unequal are these rates across countries, and income groups?\nIn this project, we split the main problem into five smaller questions:\n\nHow is adolescent fertility distributed across all country–year observations?\nHow do levels of adolescent fertility differ across World Bank income groups?\nHow has adolescent fertility changed over time, both globally and within income groups and regions?\nHow do trajectories for a few representative countries illustrate differences in levels and speed of decline?\nHow do geographic patterns of adolescent fertility look at the start of the period (1960) compared to a recent year (2023)?"
+  },
+  {
+    "objectID": "index.html#what-we-did",
+    "href": "index.html#what-we-did",
+    "title": "Adolescent Fertility – Project Overview",
+    "section": "What we did",
+    "text": "What we did\nTo answer these questions, we:\n\nSelected the World Bank adolescent fertility indicator (SP.ADO.TFRT) and downloaded the main data file and country metadata.\nLoaded the raw CSV files into pandas, cleaned them, and reshaped them into tidy long format (one row per country–year).\nMerged the fertility data with country metadata to obtain region and income group information.\nPerformed basic data cleaning and quality checks to ensure that the dataset is consistent and usable.\nCreated several visualizations (distribution plots, time-series plots, and world maps) to explore patterns and inequalities.\nFit simple regression models to summarize time trends and differences across income groups.\n\nThe rest of this website describes our data and methods in more detail and shows the main results of our analysis."
+  }
+]
